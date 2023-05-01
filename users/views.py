@@ -2,17 +2,15 @@ from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 from .models import Personas
 from .serializer import PersonesSerializer
-from rest_framework import generics
+from rest_framework import generics, mixins
 
 # personas by id - get, update, delete
 class PersonaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Personas.objects.all()
     serializer_class = PersonesSerializer
-    allowed_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS', 'TRACE']
 
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
